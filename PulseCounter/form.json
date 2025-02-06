@@ -1,0 +1,50 @@
+{
+    "elements": [
+        {
+            "type": "SelectVariable",
+            "name": "InputVariable",
+            "caption": "Input Variable",
+            "width": "450px"
+        },
+        {
+            "type": "Select",
+            "name": "InputValue",
+            "caption": "Input Value",
+            "options": [
+                {
+                    "caption": "Count Value true",
+                    "value": 0
+                },
+                {
+                    "caption": "Count Value false",
+                    "value": 1
+                },
+                {
+                    "caption": "Count Value true and false",
+                    "value": 2
+                }
+            ]
+        },
+        {
+            "type": "NumberSpinner",
+            "name": "Duration",
+            "caption": "Duration",
+            "suffix": "seconds"
+        },
+        {
+            "type": "NumberSpinner",
+            "name": "Limit",
+            "caption": "Limit"
+        }
+    ],
+    "actions": [
+        {
+            "type": "TestCenter"
+        },
+        {
+            "type": "Button",
+            "caption": "Reset Counter and Timer",
+            "onClick": "MPC_StopCounterAndReset($id);"
+        }
+    ]
+}

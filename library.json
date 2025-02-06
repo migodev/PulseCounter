@@ -1,0 +1,12 @@
+{
+     "id": "{EBC4813A-551B-C777-B36A-B32C9CEC7DDD}",
+     "author": "MiGo-IT-Service",
+     "name": "PulseCounter",
+     "url": "https://www.migo-it-service.de",
+     "compatibility": {
+         "version": "7.2"
+     },
+     "version": "1.0",
+     "build": 1,
+     "date": 0
+ }

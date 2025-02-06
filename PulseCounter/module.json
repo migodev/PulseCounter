@@ -1,0 +1,14 @@
+{
+    "id": "{1D32B832-7F90-4C1E-808D-9DE530DAD992}",
+    "name": "Pulse Counter",
+    "type": 3,
+    "vendor": "",
+    "aliases": [
+        "Pulse Counter"
+    ],
+    "parentRequirements": [],
+    "childRequirements": [],
+    "implemented": [],
+    "prefix": "MPC",
+    "url": "url_tbd"
+}

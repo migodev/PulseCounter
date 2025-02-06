@@ -1,0 +1,14 @@
+{
+    "translations": {
+        "de": {
+            "Pulse Counter": "Pulszähler",
+            "Input Variable": "Eingansvariable",
+            "Input Value": "Eingangswert",
+            "seconds": "Sekunden",
+            "Count Value true": "Reagiere auf true Werte",
+            "Count Value false": "Reagiere auf false Werte",
+            "Count Value true and false": "Reagiere auf true und false Werte",
+            "Duration": "Laufzeit"
+        }
+    }
+}
