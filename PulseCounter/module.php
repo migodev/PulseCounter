@@ -37,12 +37,7 @@ class PulseCounter extends IPSModule {
     
     public function MessageSink($TimeStamp, $SenderID, $Message, $Data) {
         //https://www.symcon.de/en/service/documentation/developer-area/sdk-tools/sdk-php/messages/
-        if ($Message == VM_UPDATE) {
-            // if timer not running, then start it
-            if ($this->GetTimerInterval('CounterTimer') === 0) {
-                $this->StartTimer();
-            }
-            
+        if ($Message == VM_UPDATE) {          
             $this->countUp($Data);
             $this->verify();
         }
@@ -67,6 +62,11 @@ class PulseCounter extends IPSModule {
         }
         
         if ($count == true) {
+            // if timer not running, then start it
+            if ($this->GetTimerInterval('CounterTimer') === 0) {
+                $this->StartTimer();
+            }
+            
             $this->WriteAttributeInteger('PulseCounter', $this->ReadAttributeInteger('PulseCounter') + 1);
             $this->SetValue('Counter', $this->ReadAttributeInteger('PulseCounter'));
         }
