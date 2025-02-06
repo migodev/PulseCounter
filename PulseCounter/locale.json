@@ -8,7 +8,8 @@
             "Count Value true": "Reagiere auf true Werte",
             "Count Value false": "Reagiere auf false Werte",
             "Count Value true and false": "Reagiere auf true und false Werte",
-            "Duration": "Laufzeit"
+            "Duration": "Laufzeit",
+            "Reset Counter and Timer": "Setze Counter und Timer zurück"
         }
     }
 }
