@@ -94,7 +94,7 @@ class PulseCounter extends IPSModule {
     private function initCounterValues() {
         $this->SetValue('Counter', 0);
         $this->WriteAttributeInteger('PulseCounter', 0);
-        $this->SetValue('Result', false);
+        if ($this->GetValue('Result') !== false) { $this->SetValue('Result', false); }
     }
     
     private function StopCounter(bool $result) {
