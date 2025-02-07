@@ -39,7 +39,6 @@ class PulseCounter extends IPSModule {
         //https://www.symcon.de/en/service/documentation/developer-area/sdk-tools/sdk-php/messages/
         if ($Message == VM_UPDATE) {          
             $this->countUp($Data);
-            $this->verify();
         }
     }
     
@@ -69,6 +68,9 @@ class PulseCounter extends IPSModule {
             
             $this->WriteAttributeInteger('PulseCounter', $this->ReadAttributeInteger('PulseCounter') + 1);
             $this->SetValue('Counter', $this->ReadAttributeInteger('PulseCounter'));
+            
+            // Verfify if Count Limit already reached
+            $this->verify();
         }
     }
     
