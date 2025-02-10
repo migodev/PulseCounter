@@ -9,7 +9,10 @@
             "Count Value false": "Reagiere auf false Werte",
             "Count Value true and false": "Reagiere auf true und false Werte",
             "Duration": "Laufzeit",
-            "Reset Counter and Timer": "Setze Counter und Timer zurück"
+            "Reset Counter and Timer": "Setze Counter und Timer zurück",
+            "Result": "Ergebnis",
+            "Counter": "Counter",
+            "Remaining Time": "Restlaufzeit"
         }
     }
 }

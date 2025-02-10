@@ -22,13 +22,19 @@ class PulseCounter extends IPSModule {
         $this->RegisterTimer('UpdateRemainingTimer', 0, "MPC_UpdateRemaining(\$_IPS['TARGET']);");
         
         //Variables
-        $this->RegisterVariableBoolean('Result', 'Ergebnis');
-        $this->RegisterVariableInteger('Counter', 'Counter');
-        $this->RegisterVariableString('Remaining', 'Restlaufzeit');
+        $this->RegisterVariableBoolean('Result', $this->Translate('Result'));
+        $this->RegisterVariableInteger('Counter', $this->Translate('Counter'));
+        $this->RegisterVariableString('Remaining', $this->Translate('Remaining Time'));
     }
     
     public function ApplyChanges() {
         parent::ApplyChanges();
+        
+        //Unregister all messages
+        $messageList = array_keys($this->GetMessageList());
+        foreach ($messageList as $message) {
+            $this->UnregisterMessage($message, VM_UPDATE);
+        }
         
         if($this->ReadPropertyInteger("InputVariable") > 0) {
             $this->RegisterMessage($this->ReadPropertyInteger("InputVariable"), VM_UPDATE);
@@ -38,11 +44,11 @@ class PulseCounter extends IPSModule {
     public function MessageSink($TimeStamp, $SenderID, $Message, $Data) {
         //https://www.symcon.de/en/service/documentation/developer-area/sdk-tools/sdk-php/messages/
         if ($Message == VM_UPDATE) {          
-            $this->countUp($Data);
+            $this->CountUp($Data);
         }
     }
     
-    private function countUp($Data) {        
+    private function CountUp($Data) {        
         // $Data[0] Neuer Wert
         // $Data[1] true/false ob Änderung oder Aktualisierung.
         // $Data[2] Alter Wert 
@@ -70,11 +76,11 @@ class PulseCounter extends IPSModule {
             $this->SetValue('Counter', $this->ReadAttributeInteger('PulseCounter'));
             
             // Verfify if Count Limit already reached
-            $this->verify();
+            $this->Verify();
         }
     }
     
-    private function verify() {
+    private function Verify() {
         if ($this->ReadAttributeInteger('PulseCounter') >= $this->ReadPropertyInteger("Limit")) {
             // Limit reached
             $this->StopCounter(true);
@@ -90,10 +96,10 @@ class PulseCounter extends IPSModule {
         $this->SetTimerInterval('UpdateRemainingTimer', 1000 * $this->ReadAttributeInteger('UpdateInterval'));
         $this->UpdateRemaining();
         
-        $this->initCounterValues();
+        $this->InitCounterValues();
     }
     
-    private function initCounterValues() {
+    private function InitCounterValues() {
         $this->SetValue('Counter', 0);
         $this->WriteAttributeInteger('PulseCounter', 0);
         if ($this->GetValue('Result') !== false) { $this->SetValue('Result', false); }
@@ -110,7 +116,7 @@ class PulseCounter extends IPSModule {
     public function StopCounterAndReset() {
         // If running till end without any result, set all values back to 0
         $this->StopCounter(false);
-        $this->initCounterValues();
+        $this->InitCounterValues();
     }
     
     public function UpdateRemaining() {
