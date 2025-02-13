@@ -26,7 +26,7 @@ class PulseCounter extends IPSModule {
         $this->RegisterVariableBoolean('Result', $this->Translate('Result'));
         $this->RegisterVariableInteger('Counter', $this->Translate('Counter'));
         $this->RegisterVariableString('Remaining', $this->Translate('Remaining Time'));
-        $this->RegisterVariableInteger('Difference', $this->Translate('Difference Time'));
+        $this->RegisterVariableInteger('Difference', $this->Translate('Difference Time'), ['PRESENTATION' => VARIABLE_PRESENTATION_VALUE_PRESENTATION, "SUFFIX" => "ms"]);
     }
     
     public function ApplyChanges() {
@@ -81,7 +81,9 @@ class PulseCounter extends IPSModule {
                 $this->SetValue('Difference', 0);
             } else {
                 $now = microtime(true);
-                $this->SetValue('Difference', ($now - $lct)/1000); //in milliseconds
+                $diff = ($now - $lct)*1000;
+                $this->SetValue('Difference', $diff); //in milliseconds
+                $this->LogMessage($diff, KL_WARNING);
             }
             
             $this->WriteAttributeInteger('PulseCounter', $this->ReadAttributeInteger('PulseCounter') + 1);
