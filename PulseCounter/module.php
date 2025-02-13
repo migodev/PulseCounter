@@ -81,9 +81,7 @@ class PulseCounter extends IPSModule {
                 $this->SetValue('Difference', 0);
             } else {
                 $now = microtime(true);
-                $diff = ($now - $lct)*1000;
-                $this->SetValue('Difference', $diff); //in milliseconds
-                $this->LogMessage($diff, KL_WARNING);
+                $this->SetValue('Difference', ($now - $lct)*1000); //in milliseconds
             }
             
             $this->WriteAttributeInteger('PulseCounter', $this->ReadAttributeInteger('PulseCounter') + 1);
