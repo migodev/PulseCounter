@@ -38,8 +38,14 @@ class PulseCounter extends IPSModule {
             $this->UnregisterMessage($message, VM_UPDATE);
         }
         
+        //Delete all references in order to readd them
+        foreach ($this->GetReferenceList() as $referenceID) {
+            $this->UnregisterReference($referenceID);
+        }
+        
         if($this->ReadPropertyInteger("InputVariable") > 0) {
             $this->RegisterMessage($this->ReadPropertyInteger("InputVariable"), VM_UPDATE);
+            $this->RegisterReference($this->ReadPropertyInteger("InputVariable"));
         }
     }
     
