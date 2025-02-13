@@ -33,13 +33,14 @@ Das Modul ermöglicht es, einen Zähler auf einer Variable aufzusetzen, der in e
 ### 5. Statusvariablen und Profile
 
 Es werden keine Profile angelegt.
-Es werden 3 Statusvariablen angelegt:
+Es werden 4 Statusvariablen angelegt:
 
 Name                  | Typ
 --------------------- | -------------------
 Ergebnis 			  | Boolean
 Counter				  | Integer
 Restlaufzeit		  | String
+Differenzzeit		  | Integer
 
 ### 6. Visualisierung
 
