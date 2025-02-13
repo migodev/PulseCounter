@@ -12,7 +12,8 @@
             "Reset Counter and Timer": "Setze Counter und Timer zurück",
             "Result": "Ergebnis",
             "Counter": "Counter",
-            "Remaining Time": "Restlaufzeit"
+            "Remaining Time": "Restlaufzeit",
+            "Difference Time": "Differenzzeit"
         }
     }
 }

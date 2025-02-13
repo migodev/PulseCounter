@@ -16,6 +16,7 @@ class PulseCounter extends IPSModule {
         //Attributes
         $this->RegisterAttributeInteger('UpdateInterval', 5); // In Seconds
         $this->RegisterAttributeInteger('PulseCounter', 0);
+        $this->RegisterAttributeFloat('LastCountTime', 0);
         
         //Timers
         $this->RegisterTimer('CounterTimer', 0, "MPC_StopCounterAndReset(\$_IPS['TARGET']);");
@@ -25,6 +26,7 @@ class PulseCounter extends IPSModule {
         $this->RegisterVariableBoolean('Result', $this->Translate('Result'));
         $this->RegisterVariableInteger('Counter', $this->Translate('Counter'));
         $this->RegisterVariableString('Remaining', $this->Translate('Remaining Time'));
+        $this->RegisterVariableInteger('Difference', $this->Translate('Difference Time'));
     }
     
     public function ApplyChanges() {
@@ -72,6 +74,16 @@ class PulseCounter extends IPSModule {
                 $this->StartTimer();
             }
             
+            // calculate difference between Counts
+            $lct = $this->ReadAttributeFloat('LastCountTime');
+            $this->WriteAttributeFloat('LastCountTime', microtime(true));
+            if ($lct == 0) {
+                $this->SetValue('Difference', 0);
+            } else {
+                $now = microtime(true);
+                $this->SetValue('Difference', ($now - $lct)/1000); //in milliseconds
+            }
+            
             $this->WriteAttributeInteger('PulseCounter', $this->ReadAttributeInteger('PulseCounter') + 1);
             $this->SetValue('Counter', $this->ReadAttributeInteger('PulseCounter'));
             
@@ -102,6 +114,8 @@ class PulseCounter extends IPSModule {
     private function InitCounterValues() {
         $this->SetValue('Counter', 0);
         $this->WriteAttributeInteger('PulseCounter', 0);
+        $this->SetValue('Difference', 0);
+        $this->WriteAttributeFloat('LastCountTime', 0);
         if ($this->GetValue('Result') !== false) { $this->SetValue('Result', false); }
     }
     
