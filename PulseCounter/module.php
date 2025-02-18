@@ -12,9 +12,9 @@ class PulseCounter extends IPSModule {
         $this->RegisterPropertyInteger('InputValue', 0);
         $this->RegisterPropertyInteger('Duration', 1);
         $this->RegisterPropertyInteger('Limit', 1);
+        $this->RegisterPropertyInteger('UpdateInterval', 5);// In Seconds
         
         //Attributes
-        $this->RegisterAttributeInteger('UpdateInterval', 5); // In Seconds
         $this->RegisterAttributeInteger('PulseCounter', 0);
         $this->RegisterAttributeFloat('LastCountTime', 0);
         
@@ -101,7 +101,10 @@ class PulseCounter extends IPSModule {
     private function Verify() {
         if ($this->ReadAttributeInteger('PulseCounter') >= $this->ReadPropertyInteger("Limit")) {
             // Limit reached
-            $this->StopCounter(true);
+            //$this->StopCounter(true);
+            
+            //Set only result and let the timer run
+            $this->SetResult(true);
         }
     }
     
@@ -111,7 +114,7 @@ class PulseCounter extends IPSModule {
         $this->SetTimerInterval('CounterTimer', $duration  * 1000);
         
         //Update display variable periodically 
-        $this->SetTimerInterval('UpdateRemainingTimer', 1000 * $this->ReadAttributeInteger('UpdateInterval'));
+        $this->SetTimerInterval('UpdateRemainingTimer', 1000 * $this->ReadPropertyInteger('UpdateInterval'));
         $this->UpdateRemaining();
         
         $this->InitCounterValues();
@@ -125,9 +128,15 @@ class PulseCounter extends IPSModule {
         if ($this->GetValue('Result') !== false) { $this->SetValue('Result', false); }
     }
     
-    private function StopCounter(bool $result) {
+    private function SetResult(bool $Result) {
+        if ($this->GetValue('Result') != $Result) {
+            $this->SetValue('Result', $Result);
+        }
+    }
+    
+    private function StopCounter(bool $Result) {
         // Only Stop Timer with givven result, but do not reset anything
-        $this->SetValue('Result', $result);
+        $this->SetResult($Result);
         $this->SetTimerInterval('CounterTimer', 0);
         $this->SetTimerInterval('UpdateRemainingTimer', 0);
         $this->SetValue('Remaining', '00:00:00');

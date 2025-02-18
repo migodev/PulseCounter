@@ -13,7 +13,8 @@
             "Result": "Ergebnis",
             "Counter": "Counter",
             "Remaining Time": "Restlaufzeit",
-            "Difference Time": "Differenzzeit"
+            "Difference Time": "Differenzzeit",
+            "Remaining Time Update Interval": "Restlaufzeit Update Interval"
         }
     }
 }

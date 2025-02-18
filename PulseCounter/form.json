@@ -35,6 +35,12 @@
             "type": "NumberSpinner",
             "name": "Limit",
             "caption": "Limit"
+        },
+        {
+            "type": "NumberSpinner",
+            "name": "UpdateInterval",
+            "caption": "Remaining Time Update Interval",
+            "suffix": "sec"
         }
     ],
     "actions": [
