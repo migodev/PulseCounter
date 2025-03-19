@@ -14,7 +14,10 @@
             "Counter": "Counter",
             "Remaining Time": "Restlaufzeit",
             "Difference Time": "Differenzzeit",
-            "Remaining Time Update Interval": "Restlaufzeit Update Interval"
+            "Remaining Time Update Interval": "Restlaufzeit Update Interval",
+            "Change Mode": "Auslöser",
+            "On Update": "Bei Aktualisierung",
+            "On Change": "Bei Änderung"
         }
     }
 }

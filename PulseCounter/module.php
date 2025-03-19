@@ -13,6 +13,7 @@ class PulseCounter extends IPSModule {
         $this->RegisterPropertyInteger('Duration', 1);
         $this->RegisterPropertyInteger('Limit', 1);
         $this->RegisterPropertyInteger('UpdateInterval', 5);// In Seconds
+        $this->RegisterPropertyInteger('ChangeMode', 1);
         
         //Attributes
         $this->RegisterAttributeInteger('PulseCounter', 0);
@@ -61,6 +62,15 @@ class PulseCounter extends IPSModule {
         // $Data[1] true/false ob Änderung oder Aktualisierung.
         // $Data[2] Alter Wert 
         
+        $changeMode = $this->ReadPropertyInteger("ChangeMode");
+        if ($changeMode === 2) {
+            // Only On Change
+            if ($Data[1] === false) {
+                // exit, because there is no Change
+                return false;
+            }
+        }
+
         $count = false;
         switch ($this->ReadPropertyInteger('InputValue')) {
             case 0: // true

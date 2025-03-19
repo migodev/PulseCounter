@@ -26,6 +26,21 @@
             ]
         },
         {
+            "type": "Select",
+            "name": "ChangeMode",
+            "caption": "Change Mode",
+            "options": [
+                {
+                    "caption": "On Update",
+                    "value": 1
+                },
+                {
+                    "caption": "On Change",
+                    "value": 2
+                }
+            ]
+        },
+        {
             "type": "NumberSpinner",
             "name": "Duration",
             "caption": "Duration",
