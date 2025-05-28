@@ -40,7 +40,7 @@ Name                  | Typ					| Funktion
 --------------------- | ------------------- | -------------------
 Ergebnis 			  | Boolean				| Schaltet auf true wenn das Limit im Vorgegeben Zeitraum erreicht wurde
 Counter				  | Integer				| Zeigt den Counter-Stand an
-Restlaufzeit		  | String				| Restlaufzeit in Sekunden für eine Messung
+Restlaufzeit		  | Integer				| Restlaufzeit in Sekunden für eine Messung
 Differenzzeit		  | Integer				| Differenzeit zwischen 2 Auslösungen
 
 ### 6. Konfiguration
