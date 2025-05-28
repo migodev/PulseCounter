@@ -21,12 +21,11 @@ class PulseCounter extends IPSModule {
         
         //Timers
         $this->RegisterTimer('CounterTimer', 0, "MPC_StopCounterAndReset(\$_IPS['TARGET']);");
-        $this->RegisterTimer('UpdateRemainingTimer', 0, "MPC_UpdateRemaining(\$_IPS['TARGET']);");
         
         //Variables
         $this->RegisterVariableBoolean('Result', $this->Translate('Result'));
         $this->RegisterVariableInteger('Counter', $this->Translate('Counter'));
-        $this->RegisterVariableString('Remaining', $this->Translate('Remaining Time'));
+        $this->RegisterVariableInteger('Remaining', $this->Translate('Remaining Time'), ['PRESENTATION' => VARIABLE_PRESENTATION_DURATION, 'COUNTDOWN_TYPE' => 1 /* Until value in variable */], 50);
         $this->RegisterVariableInteger('Difference', $this->Translate('Difference Time'), ['PRESENTATION' => VARIABLE_PRESENTATION_VALUE_PRESENTATION, "SUFFIX" => "ms"]);
     }
     
@@ -123,10 +122,9 @@ class PulseCounter extends IPSModule {
         $duration = $this->ReadPropertyInteger('Duration');
         $this->SetTimerInterval('CounterTimer', $duration  * 1000);
         
-        //Update display variable periodically 
-        $this->SetTimerInterval('UpdateRemainingTimer', 1000 * $this->ReadPropertyInteger('UpdateInterval'));
-        $this->UpdateRemaining();
-        
+        //Update display variable
+        $this->SetValue('Remaining', time() + $this->ReadPropertyInteger('Duration'));
+
         $this->InitCounterValues();
     }
     
@@ -148,30 +146,13 @@ class PulseCounter extends IPSModule {
         // Only Stop Timer with givven result, but do not reset anything
         $this->SetResult($Result);
         $this->SetTimerInterval('CounterTimer', 0);
-        $this->SetTimerInterval('UpdateRemainingTimer', 0);
-        $this->SetValue('Remaining', '00:00:00');
+        $this->SetValue('Remaining', 0);
     }
     
     public function StopCounterAndReset() {
         // If running till end without any result, set all values back to 0
         $this->StopCounter(false);
         $this->InitCounterValues();
-    }
-    
-    public function UpdateRemaining() {
-        // Refresh Remaining Variable
-        $secondsRemaining = 0;
-        foreach (IPS_GetTimerList() as $timerID) {
-            $timer = IPS_GetTimer($timerID);
-            if (($timer['InstanceID'] == $this->InstanceID) && ($timer['Name'] == 'CounterTimer')) {
-                $secondsRemaining = $timer['NextRun'] - time();
-                break;
-            }
-        }
-        
-        //Display remaining time as string
-        $this->SetValue('Remaining', sprintf('%02d:%02d:%02d', ($secondsRemaining / 3600), ($secondsRemaining / 60 % 60), $secondsRemaining % 60));
-    }
-    
+    }    
 }
 ?>
