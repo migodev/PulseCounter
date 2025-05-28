@@ -8,8 +8,9 @@ Das Modul ermöglicht es, einen Zähler auf einer Variable aufzusetzen, der in e
 3. [Software-Installation](#3-software-installation)
 4. [Einrichten der Instanzen in IP-Symcon](#4-einrichten-der-instanzen-in-ip-symcon)
 5. [Statusvariablen und Profile](#5-statusvariablen-und-profile)
-6. [Visualisierung](#6-visualisierung)
-7. [PHP-Befehlsreferenz](#7-php-befehlsreferenz)
+6. [Konfiguration](#6-konfiguration)
+7. [Visualisierung](#7-visualisierung)
+8. [PHP-Befehlsreferenz](#8-php-befehlsreferenz)
 
 
 ### 1. Funktionsumfang
@@ -35,12 +36,24 @@ Das Modul ermöglicht es, einen Zähler auf einer Variable aufzusetzen, der in e
 Es werden keine Profile angelegt.
 Es werden 4 Statusvariablen angelegt:
 
-Name                  | Typ
---------------------- | -------------------
-Ergebnis 			  | Boolean
-Counter				  | Integer
-Restlaufzeit		  | String
-Differenzzeit		  | Integer
+Name                  | Typ					| Funktion
+--------------------- | ------------------- | -------------------
+Ergebnis 			  | Boolean				| Schaltet auf true wenn das Limit im Vorgegeben Zeitraum erreicht wurde
+Counter				  | Integer				| Zeigt den Counter-Stand an
+Restlaufzeit		  | String				| Restlaufzeit in Sekunden für eine Messung
+Differenzzeit		  | Integer				| Differenzeit zwischen 2 Auslösungen
+
+### 6. Konfiguration
+
+| Eigenschaft                                           |   Typ   | Standardwert | Funktion                                                  |
+|:------------------------------------------------------|:-------:|:-------------|:----------------------------------------------------------|
+| Eingangsvariable                                      | integer | 0            | Die TasterVariable auf die reagiert werden soll, z.B. Status AO oder Gedrückt |
+| Eingangswert                                      	| integer | 0            | Auf welchen Wert soll reagiert werden, true, false oder beides. Nur wenn dieser Wert durch die Eingangsvariable ausgelöst wird, wird der Counter hochgezählt |
+| Auslöser		                                        | integer | 0            | Entscheidung ob nur bei einer Änderung oder jeder Aktualisierung der Eingangsvariable der Counter hochgezählt wird |
+| Laufzeit in sek                                       | integer | 0            | Laufzeit in Sekunden in denen der Counter einen Vorgang zählt |
+| Limit							                        | integer |              | Ist dieser Limit Wert erreicht, wird die Ergebnis Variable auf true geschaltet |
+| Restlaufzeit Update Interval                          | integer | 0            | Das UpdateInterval für die Restlaufzeit Variable. |
+
 
 ### 6. Visualisierung
 
