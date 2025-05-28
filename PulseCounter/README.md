@@ -51,7 +51,7 @@ Differenzzeit		  | Integer				| Differenzeit zwischen 2 Auslösungen
 | Eingangswert                                      	| integer | 0            | Auf welchen Wert soll reagiert werden, true, false oder beides. Nur wenn dieser Wert durch die Eingangsvariable ausgelöst wird, wird der Counter hochgezählt |
 | Auslöser		                                        | integer | 0            | Entscheidung ob nur bei einer Änderung oder jeder Aktualisierung der Eingangsvariable der Counter hochgezählt wird |
 | Laufzeit in sek                                       | integer | 0            | Laufzeit in Sekunden in denen der Counter einen Vorgang zählt |
-| Limit							                        | integer |              | Ist dieser Limit Wert erreicht, wird die Ergebnis Variable auf true geschaltet |
+| Limit							                        | integer | 0            | Ist dieser Limit Wert erreicht, wird die Ergebnis Variable auf true geschaltet |
 | Restlaufzeit Update Interval                          | integer | 0            | Das UpdateInterval für die Restlaufzeit Variable. |
 
 
