@@ -19,7 +19,7 @@ Das Modul ermöglicht es, einen Zähler auf einer Variable aufzusetzen, der in e
 
 ### 2. Voraussetzungen
 
-- IP-Symcon ab Version 7.1
+- IP-Symcon ab Version 8.0
 
 ### 3. Software-Installation
 
