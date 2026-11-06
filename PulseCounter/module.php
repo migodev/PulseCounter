@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-class PulseCounter extends IPSModule {
+class PulseCounter extends IPSModuleStrict {
     
-    public function Create() {
+    public function Create(): void {
         parent::Create();
         
         //Properties
@@ -29,7 +29,7 @@ class PulseCounter extends IPSModule {
         $this->RegisterVariableInteger('Difference', $this->Translate('Difference Time'), ['PRESENTATION' => VARIABLE_PRESENTATION_VALUE_PRESENTATION, "SUFFIX" => "ms"]);
     }
     
-    public function ApplyChanges() {
+    public function ApplyChanges(): void {
         parent::ApplyChanges();
         
         //Unregister all messages
@@ -49,14 +49,14 @@ class PulseCounter extends IPSModule {
         }
     }
     
-    public function MessageSink($TimeStamp, $SenderID, $Message, $Data) {
+    public function MessageSink(int $TimeStamp, int $SenderID, int $Message, array $Data): void {
         //https://www.symcon.de/en/service/documentation/developer-area/sdk-tools/sdk-php/messages/
         if ($Message == VM_UPDATE) {          
             $this->CountUp($Data);
         }
     }
     
-    private function CountUp($Data) {        
+    private function CountUp(Array $Data): bool {        
         // $Data[0] Neuer Wert
         // $Data[1] true/false ob Änderung oder Aktualisierung.
         // $Data[2] Alter Wert 
@@ -66,6 +66,7 @@ class PulseCounter extends IPSModule {
             // Only On Change
             if ($Data[1] === false) {
                 // exit, because there is no Change
+                $this->SendDebug('changeMode', "exit, because there is no Change", 0);
                 return false;
             }
         }
@@ -82,7 +83,9 @@ class PulseCounter extends IPSModule {
                 if (($Data[0] === false) || ($Data[0] === true)) { $count = true; }
                 break;
         }
-        
+        $this->SendDebug('InputValue', json_encode($this->ReadPropertyInteger('InputValue')), 0);
+        $this->SendDebug('Count', json_encode($count), 0);
+
         if ($count == true) {
             // if timer not running, then start it
             if ($this->GetTimerInterval('CounterTimer') === 0) {
@@ -105,52 +108,61 @@ class PulseCounter extends IPSModule {
             // Verfify if Count Limit already reached
             $this->Verify();
         }
+        return true;
     }
     
-    private function Verify() {
+    private function Verify(): void {
         if ($this->ReadAttributeInteger('PulseCounter') >= $this->ReadPropertyInteger("Limit")) {
             // Limit reached
-            //$this->StopCounter(true);
-            
+            $this->SendDebug('Limit', "Limit reached", 0);
+
             //Set only result and let the timer run
             $this->SetResult(true);
+        } else {
+            $this->SendDebug('Limit', "Limit not reached", 0);
         }
     }
     
-    private function StartTimer() {
+    private function StartTimer(): void {
         //Start CounterTimer
         $duration = $this->ReadPropertyInteger('Duration');
         $this->SetTimerInterval('CounterTimer', $duration  * 1000);
         
+        $this->SendDebug('timer', "Start Timer with Duration: ".$duration."s", 0);
+
         //Update display variable
         $this->SetValue('Remaining', time() + $this->ReadPropertyInteger('Duration'));
 
         $this->InitCounterValues();
     }
     
-    private function InitCounterValues() {
+    private function InitCounterValues(): void {
+        $this->SendDebug('init', "Set all values to 0 and init", 0);
         $this->SetValue('Counter', 0);
         $this->WriteAttributeInteger('PulseCounter', 0);
         $this->SetValue('Difference', 0);
         $this->WriteAttributeFloat('LastCountTime', 0);
-        if ($this->GetValue('Result') !== false) { $this->SetValue('Result', false); }
+        $this->SetResult(false);
     }
     
-    private function SetResult(bool $Result) {
+    private function SetResult(bool $Result): void {
         if ($this->GetValue('Result') != $Result) {
+            $this->SendDebug('SetResult', json_encode($Result), 0);
             $this->SetValue('Result', $Result);
         }
     }
     
-    private function StopCounter(bool $Result) {
+    private function StopCounter(bool $Result): void {
         // Only Stop Timer with givven result, but do not reset anything
+        $this->SendDebug('StopCounter', "stopping", 0);
         $this->SetResult($Result);
         $this->SetTimerInterval('CounterTimer', 0);
         $this->SetValue('Remaining', 0);
     }
     
-    public function StopCounterAndReset() {
+    public function StopCounterAndReset(): void {
         // If running till end without any result, set all values back to 0
+        $this->SendDebug('StopCounterAndReset', "stopping & resetting", 0);
         $this->StopCounter(false);
         $this->InitCounterValues();
     }    
